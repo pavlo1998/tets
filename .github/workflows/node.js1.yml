@@ -5,13 +5,15 @@ name: Firebase CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         node-version: [14.x]
@@ -20,32 +22,32 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install -g yarn
     - name: yarn install, build and test
-      run:
+      run: |
         yarn install
         yarn build
     - name: Archive Build
-    - uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v2
       with:
         name: build
         path: build
         
-  deploy: 
+  deploy:
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Download Artifact
+      - name: Download Build
         uses: actions/download-artifact@v2
         with:
           name: build
           path: build
-      - name: Deploy to Firebase
+      - name: Depoy to Firebase
         uses: w9jds/firebase-action@master
         with:
           args: deploy --only hosting
