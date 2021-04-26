@@ -15,6 +15,8 @@ jobs:
         uses: actions/checkout@master
       - name: Install Dependencies
         run: npm install
+      - name: Install build directory
+        run: npm build
       - name: Build
         run: npm run build-prod
       - name: Archive Production Artifact
