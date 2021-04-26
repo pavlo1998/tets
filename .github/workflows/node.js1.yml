@@ -15,10 +15,10 @@ jobs:
         uses: actions/checkout@master
       - name: Install Dependencies
         run: npm install
-      - name: Build
-        run: npm run build-prod
       - name: Install build directory
         run: npm run build
+      - name: Build
+        run: npm run build-prod
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
         with:
